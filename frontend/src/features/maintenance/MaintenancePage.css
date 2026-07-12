@@ -1,0 +1,97 @@
+.af-maint-page {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.af-maint-page__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.af-maint-page__title {
+  margin: 0 0 0.25rem;
+  color: var(--text-primary);
+  font-size: 1.75rem;
+}
+
+.af-maint-page__subtitle,
+.af-maint-muted {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.af-maint-board {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(220px, 1fr));
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.af-maint-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.af-maint-card__top {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.af-maint-card__tag {
+  color: var(--accent-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.af-maint-card__asset {
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.af-maint-card__issue {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.af-maint-card__meta,
+.af-maint-card__actions,
+.af-maint-form {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.af-maint-form {
+  flex-direction: column;
+}
+
+.af-maint-label {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .af-maint-page {
+    padding: 1rem;
+  }
+
+  .af-maint-page__header {
+    flex-direction: column;
+  }
+
+  .af-maint-board {
+    grid-template-columns: repeat(6, 240px);
+  }
+}

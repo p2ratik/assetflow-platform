@@ -11,6 +11,8 @@ import DashboardPage from './features/dashboard/DashboardPage';
 import OrganizationPage from './features/organization/OrganizationPage';
 import AssetsPage from './features/assets/AssetsPage';
 import AllocationPage from './features/allocation/AllocationPage';
+import BookingPage from './features/booking/BookingPage';
+import MaintenancePage from './features/maintenance/MaintenancePage';
 
 // Placeholder for B & C modules — they replace these
 function ComingSoon({ title }) {
@@ -71,10 +73,10 @@ export default function App() {
             />
 
             {/* Screen 6: Resource Booking — Member B */}
-            <Route path="booking" element={<ComingSoon title="Resource Booking" />} />
+            <Route path="booking" element={<BookingPage />} />
 
             {/* Screen 7: Maintenance — Member C */}
-            <Route path="maintenance" element={<ComingSoon title="Maintenance" />} />
+            <Route path="maintenance" element={<MaintenancePage />} />
 
             {/* Screen 8: Audit — Member C */}
             <Route
