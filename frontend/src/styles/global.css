@@ -126,6 +126,14 @@ label {
   color: var(--accent-primary);
 }
 
+/* ── Root layout ──────────────────────────────────────────────── */
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 /* ── Utility Classes ──────────────────────────────────────────── */
 .sr-only {
   position: absolute;
@@ -136,6 +144,65 @@ label {
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0;
+}
+
+/* ── af-btn: shared button primitive used by all feature pages ── */
+.af-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  white-space: nowrap;
+  outline: none;
+  padding: var(--space-3) var(--space-5);
+  text-decoration: none;
+}
+
+.af-btn--primary {
+  background: linear-gradient(135deg, var(--accent-primary), #818cf8);
+  color: #fff;
+  box-shadow: 0 2px 8px var(--accent-primary-glow);
+}
+.af-btn--primary:hover {
+  box-shadow: 0 4px 16px var(--accent-primary-glow);
+  transform: translateY(-1px);
+}
+
+.af-btn--outline {
+  background: transparent;
+  border-color: var(--border-default);
+  color: var(--text-primary);
+}
+.af-btn--outline:hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+}
+
+.af-btn--ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--text-secondary);
+}
+.af-btn--ghost:hover {
+  background: var(--surface-400);
+  color: var(--text-primary);
+}
+
+.af-btn--sm  { padding: var(--space-2) var(--space-3); font-size: var(--text-sm); }
+.af-btn--lg  { padding: var(--space-4) var(--space-6); font-size: var(--text-md); }
+
+.af-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
 }
 
 /* ── Stagger animation utility ────────────────────────────────── */
