@@ -26,7 +26,7 @@ def signup(db: Session, data: SignupRequest) -> TokenResponse:
     db.commit()
     db.refresh(user)
 
-    token = create_access_token({"sub": user.id, "role": user.role.value})
+    token = create_access_token({"sub": str(user.id), "role": user.role.value})
     return TokenResponse(
         access_token=token,
         user=UserResponse.model_validate(user),
@@ -47,7 +47,7 @@ def authenticate(db: Session, data: LoginRequest) -> TokenResponse:
             detail="Account deactivated",
         )
 
-    token = create_access_token({"sub": user.id, "role": user.role.value})
+    token = create_access_token({"sub": str(user.id), "role": user.role.value})
     return TokenResponse(
         access_token=token,
         user=UserResponse.model_validate(user),

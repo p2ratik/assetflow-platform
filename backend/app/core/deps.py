@@ -23,9 +23,13 @@ def get_current_user(
             detail="Invalid or expired token",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    user_id: int = payload.get("sub")
-    if user_id is None:
+    subject = payload.get("sub")
+    if subject is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token missing subject")
+    try:
+        user_id = int(subject)
+    except (TypeError, ValueError):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token subject")
 
     user = db.query(User).filter(User.id == user_id).first()
     if user is None:
