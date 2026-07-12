@@ -1,21 +1,29 @@
+import hashlib
 from datetime import datetime, timedelta, timezone
 from typing import Optional
 
+import bcrypt
 from jose import JWTError, jwt
-from passlib.context import CryptContext
 
 from app.core.config import settings
 
+
 # ── Password Hashing ─────────────────────────────────────────
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# bcrypt has a 72-byte hard limit. We SHA-256 the password first so the
+# input is always exactly 32 bytes — safe, fast, and standard practice.
+
+def _prepare(plain: str) -> bytes:
+    """SHA-256 digest of the plaintext → always fits within bcrypt's 72-byte limit."""
+    return hashlib.sha256(plain.encode("utf-8")).digest()
 
 
 def hash_password(plain: str) -> str:
-    return pwd_context.hash(plain)
+    hashed = bcrypt.hashpw(_prepare(plain), bcrypt.gensalt())
+    return hashed.decode("utf-8")
 
 
 def verify_password(plain: str, hashed: str) -> bool:
-    return pwd_context.verify(plain, hashed)
+    return bcrypt.checkpw(_prepare(plain), hashed.encode("utf-8"))
 
 
 # ── JWT ───────────────────────────────────────────────────────

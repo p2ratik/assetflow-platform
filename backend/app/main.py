@@ -1,7 +1,20 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.core.database import Base, engine
 from app.modules.auth.router import router as auth_router
+
+# Import all models so Base.metadata is fully populated before create_all
+import app.models  # noqa: F401
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Create all DB tables on startup (idempotent — skips existing tables)."""
+    Base.metadata.create_all(bind=engine)
+    yield
 
 
 def create_app() -> FastAPI:
@@ -9,6 +22,7 @@ def create_app() -> FastAPI:
         title="AssetFlow API",
         description="Enterprise Asset & Resource Management Platform",
         version="0.1.0",
+        lifespan=lifespan,
     )
 
     # ── CORS ──────────────────────────────────────────────────
