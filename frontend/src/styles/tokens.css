@@ -70,7 +70,13 @@
   --text-primary: rgba(255, 255, 255, 0.92);
   --text-secondary: rgba(255, 255, 255, 0.60);
   --text-tertiary: rgba(255, 255, 255, 0.38);
+  --text-muted: rgba(255, 255, 255, 0.30);     /* alias for feature pages */
   --text-inverse: #0a0b0e;
+
+  /* ── Surface aliases (used by feature pages) ────────────────── */
+  --surface: var(--surface-300);
+  --surface-raised: var(--surface-400);
+  --border: var(--border-default);             /* shorthand */
 
   /* ── Spacing ────────────────────────────────────────────────── */
   --space-1: 0.25rem;   /* 4px */

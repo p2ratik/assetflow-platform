@@ -23,7 +23,6 @@ export function AuthProvider({ children }) {
         setUser(res.data);
         localStorage.setItem('assetflow_user', JSON.stringify(res.data));
       } catch {
-        // Token invalid — clear everything
         setToken(null);
         setUser(null);
         localStorage.removeItem('assetflow_token');
@@ -35,28 +34,35 @@ export function AuthProvider({ children }) {
     validate();
   }, [token]);
 
-  const login = useCallback(async (email, password) => {
-    const res = await client.post('/auth/login', { email, password });
-    const { access_token, user: userData } = res.data;
+  const _persist = (access_token, userData) => {
     setToken(access_token);
     setUser(userData);
     localStorage.setItem('assetflow_token', access_token);
     localStorage.setItem('assetflow_user', JSON.stringify(userData));
+  };
+
+  const login = useCallback(async (email, password) => {
+    const res = await client.post('/auth/login', { email, password });
+    const { access_token, user: userData } = res.data;
+    _persist(access_token, userData);
     return userData;
   }, []);
 
   const signup = useCallback(async (name, email, password, departmentId) => {
     const res = await client.post('/auth/signup', {
-      name,
-      email,
-      password,
+      name, email, password,
       department_id: departmentId || null,
     });
     const { access_token, user: userData } = res.data;
-    setToken(access_token);
-    setUser(userData);
-    localStorage.setItem('assetflow_token', access_token);
-    localStorage.setItem('assetflow_user', JSON.stringify(userData));
+    _persist(access_token, userData);
+    return userData;
+  }, []);
+
+  // First-run only: creates admin account — returns 409 if admin already exists
+  const setupAdmin = useCallback(async (name, email, password) => {
+    const res = await client.post('/auth/setup', { name, email, password });
+    const { access_token, user: userData } = res.data;
+    _persist(access_token, userData);
     return userData;
   }, []);
 
@@ -75,6 +81,7 @@ export function AuthProvider({ children }) {
     loading,
     login,
     signup,
+    setupAdmin,
     logout,
   };
 
