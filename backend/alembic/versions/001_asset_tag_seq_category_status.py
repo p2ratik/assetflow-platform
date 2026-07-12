@@ -1,6 +1,6 @@
 """add asset_tag_seq and category_status
 
-Revision ID: 001_asset_tag_seq_category_status
+Revision ID: 001_tag_seq_cat_status
 Revises:
 Create Date: 2026-07-12
 
@@ -12,7 +12,7 @@ from alembic import op
 import sqlalchemy as sa
 
 # revision identifiers
-revision = "001_asset_tag_seq_category_status"
+revision = "001_tag_seq_cat_status"
 down_revision = None
 branch_labels = None
 depends_on = None
