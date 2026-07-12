@@ -1,0 +1,110 @@
+/* ═══════════════════════════════════════════════════════════════
+   CARD
+   ═══════════════════════════════════════════════════════════════ */
+
+.af-card {
+  background: var(--surface-200);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  transition:
+    transform var(--duration-normal) var(--ease-out),
+    box-shadow var(--duration-normal) var(--ease-out),
+    border-color var(--duration-normal) var(--ease-out);
+}
+
+.af-card--padded {
+  padding: var(--space-5);
+}
+
+.af-card--hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--border-default);
+}
+
+.af-card--clickable {
+  cursor: pointer;
+}
+
+/* ── Glow variants ────────────────────────────────────────────── */
+.af-card--glow-teal {
+  box-shadow: var(--shadow-glow-teal);
+  border-color: rgba(0, 229, 200, 0.12);
+}
+
+.af-card--glow-amber {
+  box-shadow: var(--shadow-glow-amber);
+  border-color: rgba(255, 184, 77, 0.12);
+}
+
+/* ── Compact variant ──────────────────────────────────────────── */
+.af-card--compact {
+  padding: var(--space-3);
+}
+
+/* ── Stat card ────────────────────────────────────────────────── */
+.af-card--stat {
+  background: linear-gradient(
+    135deg,
+    var(--surface-200) 0%,
+    var(--surface-300) 100%
+  );
+}
+
+.af-stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.af-stat-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.af-stat-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: var(--accent-primary-dim);
+  color: var(--accent-primary);
+  font-size: var(--text-lg);
+}
+
+.af-stat-card__label {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.af-stat-card__value {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.af-stat-card__change {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+}
+
+.af-stat-card__change--up {
+  color: var(--color-success);
+}
+
+.af-stat-card__change--down {
+  color: var(--color-error);
+}
+
+.af-stat-card__change--neutral {
+  color: var(--text-tertiary);
+}

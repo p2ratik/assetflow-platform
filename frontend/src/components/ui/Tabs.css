@@ -1,0 +1,90 @@
+/* ═══════════════════════════════════════════════════════════════
+   TABS
+   ═══════════════════════════════════════════════════════════════ */
+
+.af-tabs {
+  width: 100%;
+}
+
+.af-tabs__list {
+  position: relative;
+  display: flex;
+  gap: var(--space-1);
+  border-bottom: 1px solid var(--border-subtle);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.af-tabs__list::-webkit-scrollbar {
+  display: none;
+}
+
+.af-tabs__tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+  color: var(--text-tertiary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    background var(--duration-fast) var(--ease-out);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.af-tabs__tab:hover {
+  color: var(--text-secondary);
+  background: var(--surface-300);
+}
+
+.af-tabs__tab--active {
+  color: var(--accent-primary);
+}
+
+.af-tabs__tab--active:hover {
+  color: var(--accent-primary);
+}
+
+.af-tabs__icon {
+  display: flex;
+  font-size: 1.1em;
+}
+
+.af-tabs__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  background: var(--surface-400);
+  color: var(--text-secondary);
+  border-radius: var(--radius-full);
+}
+
+.af-tabs__tab--active .af-tabs__count {
+  background: var(--accent-primary-dim);
+  color: var(--accent-primary);
+}
+
+/* ── Sliding indicator ────────────────────────────────────────── */
+.af-tabs__indicator {
+  position: absolute;
+  bottom: -1px;
+  height: 2px;
+  background: var(--accent-primary);
+  border-radius: 2px 2px 0 0;
+  transition:
+    left var(--duration-normal) var(--ease-spring),
+    width var(--duration-normal) var(--ease-spring);
+  box-shadow: 0 0 8px var(--accent-primary-glow);
+}

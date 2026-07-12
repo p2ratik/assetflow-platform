@@ -1,0 +1,44 @@
+# ── Python ────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# ── Virtual Environments ─────────────────────────────────────
+.venv/
+venv/
+ENV/
+
+# ── Environment Variables ────────────────────────────────────
+.env
+.env.local
+.env.production
+
+# ── Node / Frontend ──────────────────────────────────────────
+node_modules/
+frontend/dist/
+frontend/.vite/
+*.tsbuildinfo
+
+# ── IDE / Editor ─────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ── Alembic ──────────────────────────────────────────────────
+# Keep migration files, ignore transient Alembic state
+# (migrations themselves are committed)
+
+# ── Misc ─────────────────────────────────────────────────────
+*.log
+*.pid
+*.seed
+.cache/

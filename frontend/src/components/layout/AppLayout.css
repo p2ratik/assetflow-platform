@@ -1,0 +1,15 @@
+/* ═══════════════════════════════════════════════════════════════
+   APP LAYOUT
+   ═══════════════════════════════════════════════════════════════ */
+
+.af-layout {
+  min-height: 100vh;
+}
+
+.af-layout__main {
+  margin-left: var(--sidebar-width);
+  margin-top: var(--topbar-height);
+  padding: var(--space-6);
+  min-height: calc(100vh - var(--topbar-height));
+  transition: margin-left var(--duration-normal) var(--ease-out);
+}

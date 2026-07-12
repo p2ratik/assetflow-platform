@@ -1,0 +1,98 @@
+/* ═══════════════════════════════════════════════════════════════
+   KANBAN COLUMN
+   ═══════════════════════════════════════════════════════════════ */
+
+.af-kanban-col {
+  flex: 1;
+  min-width: 260px;
+  max-width: 340px;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-200);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.af-kanban-col__header {
+  position: relative;
+}
+
+.af-kanban-col__stripe {
+  height: 3px;
+  width: 100%;
+}
+
+.af-kanban-col__title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-4) var(--space-3);
+}
+
+.af-kanban-col__title {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.af-kanban-col__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 8px;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  background: var(--surface-400);
+  color: var(--text-secondary);
+  border-radius: var(--radius-full);
+}
+
+.af-kanban-col__body {
+  flex: 1;
+  padding: 0 var(--space-3) var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  overflow-y: auto;
+  max-height: 60vh;
+}
+
+.af-kanban-col__card {
+  cursor: pointer;
+}
+
+.af-kanban-col__card-default {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.af-kanban-col__card-title {
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+  color: var(--text-primary);
+}
+
+.af-kanban-col__card-assignee {
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+}
+
+/* ── Empty state ──────────────────────────────────────────────── */
+.af-kanban-col__empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8) var(--space-4);
+  color: var(--text-tertiary);
+  font-size: var(--text-sm);
+  font-style: italic;
+  border: 2px dashed var(--border-subtle);
+  border-radius: var(--radius-md);
+  margin-top: var(--space-1);
+}

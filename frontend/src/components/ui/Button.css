@@ -1,0 +1,142 @@
+/* ═══════════════════════════════════════════════════════════════
+   BUTTON
+   ═══════════════════════════════════════════════════════════════ */
+
+.af-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.01em;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out),
+    opacity var(--duration-fast) var(--ease-out);
+}
+
+.af-btn:active:not(.af-btn--disabled) {
+  transform: scale(0.97);
+}
+
+/* ── Sizes ────────────────────────────────────────────────────── */
+.af-btn--sm {
+  font-size: var(--text-sm);
+  padding: var(--space-1) var(--space-3);
+  height: 32px;
+}
+
+.af-btn--md {
+  font-size: var(--text-base);
+  padding: var(--space-2) var(--space-5);
+  height: 40px;
+}
+
+.af-btn--lg {
+  font-size: var(--text-md);
+  padding: var(--space-3) var(--space-6);
+  height: 48px;
+}
+
+.af-btn--full {
+  width: 100%;
+}
+
+/* ── Primary (gradient) ───────────────────────────────────────── */
+.af-btn--primary {
+  background: linear-gradient(135deg, var(--accent-primary), #00c4aa);
+  color: var(--text-inverse);
+  box-shadow: var(--shadow-sm), 0 0 16px rgba(0, 229, 200, 0.2);
+}
+
+.af-btn--primary:hover:not(.af-btn--disabled) {
+  box-shadow: var(--shadow-md), var(--shadow-glow-teal);
+  filter: brightness(1.08);
+}
+
+/* ── Secondary (outline) ──────────────────────────────────────── */
+.af-btn--secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-strong);
+}
+
+.af-btn--secondary:hover:not(.af-btn--disabled) {
+  background: var(--surface-400);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+}
+
+/* ── Danger ───────────────────────────────────────────────────── */
+.af-btn--danger {
+  background: linear-gradient(135deg, var(--color-error), #e05252);
+  color: white;
+}
+
+.af-btn--danger:hover:not(.af-btn--disabled) {
+  filter: brightness(1.1);
+  box-shadow: var(--shadow-md), 0 0 16px rgba(248, 113, 113, 0.3);
+}
+
+/* ── Ghost ────────────────────────────────────────────────────── */
+.af-btn--ghost {
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.af-btn--ghost:hover:not(.af-btn--disabled) {
+  background: var(--surface-400);
+  color: var(--text-primary);
+}
+
+/* ── Disabled ─────────────────────────────────────────────────── */
+.af-btn--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── Loading ──────────────────────────────────────────────────── */
+.af-btn--loading {
+  cursor: wait;
+}
+
+.af-btn--loading .af-btn__label {
+  opacity: 0.7;
+}
+
+.af-btn__spinner svg {
+  width: 18px;
+  height: 18px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Icon ─────────────────────────────────────────────────────── */
+.af-btn__icon {
+  display: flex;
+  align-items: center;
+  font-size: 1.1em;
+}
+
+/* ── Ripple ───────────────────────────────────────────────────── */
+.btn-ripple {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(0);
+  animation: ripple 0.6s ease-out forwards;
+  pointer-events: none;
+}

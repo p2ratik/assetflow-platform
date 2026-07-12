@@ -1,0 +1,146 @@
+/* ═══════════════════════════════════════════════════════════════
+   BADGE
+   ═══════════════════════════════════════════════════════════════ */
+
+.af-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-weight: var(--weight-medium);
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  line-height: 1;
+}
+
+/* ── Sizes ────────────────────────────────────────────────────── */
+.af-badge--sm {
+  font-size: var(--text-xs);
+  padding: 2px 8px;
+}
+
+.af-badge--md {
+  font-size: var(--text-sm);
+  padding: 4px 12px;
+}
+
+.af-badge--lg {
+  font-size: var(--text-base);
+  padding: 6px 16px;
+}
+
+/* ── Dot indicator ────────────────────────────────────────────── */
+.af-badge__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* ── Color: Available / Success ───────────────────────────────── */
+.af-badge--available.af-badge--solid {
+  background: rgba(52, 211, 153, 0.15);
+  color: var(--status-available);
+}
+.af-badge--available .af-badge__dot { background: var(--status-available); }
+.af-badge--available.af-badge--outline {
+  border: 1px solid var(--status-available);
+  color: var(--status-available);
+  background: transparent;
+}
+
+/* ── Color: Allocated / Warning ───────────────────────────────── */
+.af-badge--allocated.af-badge--solid {
+  background: rgba(255, 184, 77, 0.15);
+  color: var(--status-allocated);
+}
+.af-badge--allocated .af-badge__dot { background: var(--status-allocated); }
+.af-badge--allocated.af-badge--outline {
+  border: 1px solid var(--status-allocated);
+  color: var(--status-allocated);
+  background: transparent;
+}
+
+/* ── Color: Reserved / Info ───────────────────────────────────── */
+.af-badge--reserved.af-badge--solid {
+  background: rgba(96, 165, 250, 0.15);
+  color: var(--status-reserved);
+}
+.af-badge--reserved .af-badge__dot { background: var(--status-reserved); }
+.af-badge--reserved.af-badge--outline {
+  border: 1px solid var(--status-reserved);
+  color: var(--status-reserved);
+  background: transparent;
+}
+
+/* ── Color: Maintenance ───────────────────────────────────────── */
+.af-badge--maintenance.af-badge--solid {
+  background: rgba(251, 146, 60, 0.15);
+  color: var(--status-maintenance);
+}
+.af-badge--maintenance .af-badge__dot { background: var(--status-maintenance); }
+.af-badge--maintenance.af-badge--outline {
+  border: 1px solid var(--status-maintenance);
+  color: var(--status-maintenance);
+  background: transparent;
+}
+
+/* ── Color: Lost / Error ──────────────────────────────────────── */
+.af-badge--lost.af-badge--solid {
+  background: rgba(248, 113, 113, 0.15);
+  color: var(--status-lost);
+}
+.af-badge--lost .af-badge__dot { background: var(--status-lost); }
+.af-badge--lost.af-badge--outline {
+  border: 1px solid var(--status-lost);
+  color: var(--status-lost);
+  background: transparent;
+}
+
+/* ── Color: Retired ───────────────────────────────────────────── */
+.af-badge--retired.af-badge--solid {
+  background: rgba(156, 163, 175, 0.15);
+  color: var(--status-retired);
+}
+.af-badge--retired .af-badge__dot { background: var(--status-retired); }
+.af-badge--retired.af-badge--outline {
+  border: 1px solid var(--status-retired);
+  color: var(--status-retired);
+  background: transparent;
+}
+
+/* ── Color: Disposed ──────────────────────────────────────────── */
+.af-badge--disposed.af-badge--solid {
+  background: rgba(107, 114, 128, 0.12);
+  color: var(--status-disposed);
+}
+.af-badge--disposed .af-badge__dot { background: var(--status-disposed); }
+
+/* ── Priority Colors ──────────────────────────────────────────── */
+.af-badge--low.af-badge--solid {
+  background: rgba(96, 165, 250, 0.15);
+  color: var(--priority-low);
+}
+.af-badge--low .af-badge__dot { background: var(--priority-low); }
+
+.af-badge--medium.af-badge--solid {
+  background: rgba(251, 191, 36, 0.15);
+  color: var(--priority-medium);
+}
+.af-badge--medium .af-badge__dot { background: var(--priority-medium); }
+
+.af-badge--high.af-badge--solid {
+  background: rgba(251, 146, 60, 0.15);
+  color: var(--priority-high);
+}
+.af-badge--high .af-badge__dot { background: var(--priority-high); }
+
+.af-badge--critical.af-badge--solid {
+  background: rgba(248, 113, 113, 0.15);
+  color: var(--priority-critical);
+}
+.af-badge--critical .af-badge__dot {
+  background: var(--priority-critical);
+  animation: pulse 1s ease-in-out infinite;
+}

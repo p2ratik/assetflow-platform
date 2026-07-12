@@ -1,0 +1,88 @@
+/* ═══════════════════════════════════════════════════════════════
+   TABLE
+   ═══════════════════════════════════════════════════════════════ */
+
+.af-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--surface-200);
+}
+
+.af-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-base);
+}
+
+/* ── Header ───────────────────────────────────────────────────── */
+.af-table__th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--surface-300);
+  border-bottom: 1px solid var(--border-default);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.af-table__th--sortable {
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.af-table__th--sortable:hover {
+  color: var(--accent-primary);
+}
+
+.af-table__th-content {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.af-table__sort-icon {
+  font-size: var(--text-xs);
+  color: var(--accent-primary);
+}
+
+/* ── Body ─────────────────────────────────────────────────────── */
+.af-table__td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+.af-table__row {
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.af-table__row:hover {
+  background: var(--surface-300);
+}
+
+.af-table__row--clickable {
+  cursor: pointer;
+}
+
+.af-table__row:last-child .af-table__td {
+  border-bottom: none;
+}
+
+/* ── Empty state ──────────────────────────────────────────────── */
+.af-table__empty {
+  padding: var(--space-12) var(--space-4);
+  text-align: center;
+  color: var(--text-tertiary);
+  font-style: italic;
+}

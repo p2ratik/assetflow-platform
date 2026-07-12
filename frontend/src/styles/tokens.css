@@ -1,0 +1,112 @@
+/* ═══════════════════════════════════════════════════════════════
+   ASSETFLOW — DESIGN TOKENS
+   Dark Industrial Luxe: obsidian + electric teal + warm amber
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Surface Palette ────────────────────────────────────────── */
+  --surface-000: #0a0b0e;       /* deepest background */
+  --surface-100: #0f1117;       /* page background */
+  --surface-200: #161820;       /* card / panel */
+  --surface-300: #1c1f2a;       /* elevated card / sidebar */
+  --surface-400: #242836;       /* input / hover */
+  --surface-500: #2e3347;       /* active / pressed */
+
+  /* ── Border ─────────────────────────────────────────────────── */
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-default: rgba(255, 255, 255, 0.10);
+  --border-strong: rgba(255, 255, 255, 0.18);
+
+  /* ── Accent: Electric Teal ──────────────────────────────────── */
+  --accent-primary: #00E5C8;
+  --accent-primary-dim: rgba(0, 229, 200, 0.15);
+  --accent-primary-glow: rgba(0, 229, 200, 0.30);
+
+  /* ── Accent: Warm Amber ─────────────────────────────────────── */
+  --accent-secondary: #FFB84D;
+  --accent-secondary-dim: rgba(255, 184, 77, 0.15);
+
+  /* ── Semantic ───────────────────────────────────────────────── */
+  --color-success: #34D399;
+  --color-warning: #FBBF24;
+  --color-error: #F87171;
+  --color-info: #60A5FA;
+
+  /* ── Status Colors (Asset Lifecycle) ────────────────────────── */
+  --status-available: #34D399;
+  --status-allocated: #FFB84D;
+  --status-reserved: #60A5FA;
+  --status-maintenance: #FB923C;
+  --status-lost: #F87171;
+  --status-retired: #9CA3AF;
+  --status-disposed: #6B7280;
+
+  /* ── Priority Colors ────────────────────────────────────────── */
+  --priority-low: #60A5FA;
+  --priority-medium: #FBBF24;
+  --priority-high: #FB923C;
+  --priority-critical: #F87171;
+
+  /* ── Typography ─────────────────────────────────────────────── */
+  --font-display: 'Outfit', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --text-xs: 0.75rem;      /* 12px */
+  --text-sm: 0.8125rem;    /* 13px */
+  --text-base: 0.875rem;   /* 14px */
+  --text-md: 1rem;         /* 16px */
+  --text-lg: 1.125rem;     /* 18px */
+  --text-xl: 1.375rem;     /* 22px */
+  --text-2xl: 1.75rem;     /* 28px */
+  --text-3xl: 2.25rem;     /* 36px */
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* ── Text Colors ────────────────────────────────────────────── */
+  --text-primary: rgba(255, 255, 255, 0.92);
+  --text-secondary: rgba(255, 255, 255, 0.60);
+  --text-tertiary: rgba(255, 255, 255, 0.38);
+  --text-inverse: #0a0b0e;
+
+  /* ── Spacing ────────────────────────────────────────────────── */
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.25rem;   /* 20px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+
+  /* ── Border Radius ──────────────────────────────────────────── */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* ── Shadows ────────────────────────────────────────────────── */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-glow-teal: 0 0 20px rgba(0, 229, 200, 0.15);
+  --shadow-glow-amber: 0 0 20px rgba(255, 184, 77, 0.15);
+
+  /* ── Transitions ────────────────────────────────────────────── */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+
+  /* ── Layout ─────────────────────────────────────────────────── */
+  --sidebar-width: 260px;
+  --sidebar-collapsed: 72px;
+  --topbar-height: 64px;
+}

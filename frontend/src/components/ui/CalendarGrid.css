@@ -1,0 +1,126 @@
+/* ═══════════════════════════════════════════════════════════════
+   CALENDAR GRID
+   ═══════════════════════════════════════════════════════════════ */
+
+.af-cal-grid {
+  width: 100%;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--surface-200);
+  overflow: hidden;
+}
+
+/* ── Header ───────────────────────────────────────────────────── */
+.af-cal-grid__header {
+  display: grid;
+  grid-template-columns: 80px repeat(5, 1fr);
+  background: var(--surface-300);
+  border-bottom: 1px solid var(--border-default);
+}
+
+.af-cal-grid__day-label {
+  padding: var(--space-3) var(--space-2);
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ── Body ─────────────────────────────────────────────────────── */
+.af-cal-grid__body {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.af-cal-grid__row {
+  display: grid;
+  grid-template-columns: 80px repeat(5, 1fr);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.af-cal-grid__row:last-child {
+  border-bottom: none;
+}
+
+/* ── Time label ───────────────────────────────────────────────── */
+.af-cal-grid__time-label {
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: var(--text-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border-right: 1px solid var(--border-subtle);
+  white-space: nowrap;
+}
+
+/* ── Cell ─────────────────────────────────────────────────────── */
+.af-cal-grid__cell {
+  position: relative;
+  min-height: 40px;
+  border-right: 1px solid var(--border-subtle);
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) var(--ease-out);
+}
+
+.af-cal-grid__cell:last-child {
+  border-right: none;
+}
+
+.af-cal-grid__cell:hover {
+  background: var(--surface-400);
+}
+
+/* ── Booked cell ──────────────────────────────────────────────── */
+.af-cal-grid__cell--booked {
+  background: var(--accent-primary-dim);
+  border-left: 3px solid var(--accent-primary);
+}
+
+.af-cal-grid__cell--booked:hover {
+  background: rgba(0, 229, 200, 0.22);
+}
+
+/* ── Conflict cell ────────────────────────────────────────────── */
+.af-cal-grid__cell--conflict {
+  background: rgba(248, 113, 113, 0.12);
+  border-left: 3px solid var(--color-error);
+  position: relative;
+}
+
+.af-cal-grid__cell--conflict::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 4px,
+    rgba(248, 113, 113, 0.08) 4px,
+    rgba(248, 113, 113, 0.08) 8px
+  );
+  pointer-events: none;
+}
+
+.af-cal-grid__cell--conflict:hover {
+  background: rgba(248, 113, 113, 0.18);
+}
+
+/* ── Booking label ────────────────────────────────────────────── */
+.af-cal-grid__booking-label {
+  position: absolute;
+  top: var(--space-1);
+  left: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: var(--accent-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - var(--space-4));
+}
