@@ -4,6 +4,7 @@ import ProtectedRoute from './routes/ProtectedRoute';
 import AppLayout from './components/layout/AppLayout';
 import LoginPage from './features/auth/LoginPage';
 import SignupPage from './features/auth/SignupPage';
+import AllocationTransferPage from './features/allocation/AllocationTransferPage';
 
 // Placeholder pages — each team member builds their feature pages
 function PlaceholderPage({ title }) {
@@ -55,7 +56,7 @@ export default function App() {
               path="allocation"
               element={
                 <ProtectedRoute allowedRoles={['admin', 'asset_manager', 'dept_head']}>
-                  <PlaceholderPage title="Allocation & Transfer" />
+                  <AllocationTransferPage />
                 </ProtectedRoute>
               }
             />
