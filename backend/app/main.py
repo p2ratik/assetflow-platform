@@ -8,6 +8,8 @@ from app.modules.auth.router import router as auth_router
 from app.modules.organization.router import router as organization_router
 from app.modules.assets.router import router as assets_router
 from app.modules.dashboard.router import router as dashboard_router
+from app.modules.allocation.router import router as allocation_router, transfer_router
+from app.modules.users.router import router as users_router
 
 # Import all models so Base.metadata is fully populated before create_all
 import app.models  # noqa: F401
@@ -112,14 +114,11 @@ def create_app() -> FastAPI:
     app.include_router(assets_router, prefix="/api")
     app.include_router(dashboard_router, prefix="/api")
 
-    # Future routers — add here as modules are built:
-    # app.include_router(allocation_router, prefix="/api")   # Member B
-    # app.include_router(booking_router, prefix="/api")      # Member B
-    # app.include_router(maintenance_router, prefix="/api")  # Member C
-    # app.include_router(audit_router, prefix="/api")        # Member C
-    # app.include_router(reports_router, prefix="/api")      # Member C
-    # app.include_router(notifications_router, prefix="/api")# Member C
+    app.include_router(allocation_router, prefix="/api")  # Member B Screen 5
+    app.include_router(transfer_router, prefix="/api")    # Member B Screen 5
+    app.include_router(users_router, prefix="/api")       # user picker dropdown
 
+    # Future routers:
     @app.get("/api/health")
     def health():
         return {"status": "ok", "service": "AssetFlow"}

@@ -10,6 +10,7 @@ import SetupPage from './features/auth/SetupPage';
 import DashboardPage from './features/dashboard/DashboardPage';
 import OrganizationPage from './features/organization/OrganizationPage';
 import AssetsPage from './features/assets/AssetsPage';
+import AllocationPage from './features/allocation/AllocationPage';
 
 // Placeholder for B & C modules — they replace these
 function ComingSoon({ title }) {
@@ -63,8 +64,8 @@ export default function App() {
             <Route
               path="allocation"
               element={
-                <ProtectedRoute allowedRoles={['admin', 'asset_manager', 'dept_head']}>
-                  <ComingSoon title="Allocation & Transfer" />
+                <ProtectedRoute allowedRoles={['admin', 'asset_manager', 'dept_head', 'employee']}>
+                  <AllocationPage />
                 </ProtectedRoute>
               }
             />

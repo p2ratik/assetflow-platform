@@ -26,7 +26,7 @@ const NAV_ITEMS = [
     path: '/allocation',
     label: 'Allocation',
     icon: '🔄',
-    roles: ['admin', 'asset_manager', 'dept_head'],
+    roles: ['admin', 'asset_manager', 'dept_head', 'employee'],
   },
   {
     path: '/booking',
