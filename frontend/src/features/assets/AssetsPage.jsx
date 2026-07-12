@@ -5,11 +5,38 @@ import Button from '../../components/ui/Button';
 import Badge from '../../components/ui/Badge';
 import Table from '../../components/ui/Table';
 import { getAssets, registerAsset, updateAsset, getAsset } from '../../api/assets';
-import { getCategories } from '../../api/organization';
+import { getCategories, getDepartments } from '../../api/organization';
 import './AssetsPage.css';
 
-const STATUS_OPTIONS = ['Available', 'Allocated', 'Reserved', 'Under Maintenance', 'Lost', 'Retired', 'Disposed'];
 const CONDITION_OPTIONS = ['New', 'Good', 'Fair', 'Poor', 'Damaged'];
+
+// Statuses that can be manually set (Allocated/Reserved are system-controlled)
+const MANUAL_STATUS_OPTIONS = [
+  { value: 'Available', label: 'Available' },
+  { value: 'Under Maintenance', label: 'Under Maintenance' },
+  { value: 'Lost', label: 'Lost' },
+  { value: 'Retired', label: 'Retired' },
+  { value: 'Disposed', label: 'Disposed' },
+];
+
+// All statuses for filtering
+const ALL_STATUS_OPTIONS = [
+  'Available', 'Allocated', 'Reserved', 'Under Maintenance', 'Lost', 'Retired', 'Disposed',
+];
+
+// ── Status color helper ────────────────────────────────────────
+function statusVariant(s) {
+  const map = {
+    Available: 'available',
+    Allocated: 'allocated',
+    Reserved: 'reserved',
+    'Under Maintenance': 'maintenance',
+    Lost: 'lost',
+    Retired: 'retired',
+    Disposed: 'disposed',
+  };
+  return map[s] || 'default';
+}
 
 // ── Register / Edit Modal ──────────────────────────────────────
 function AssetFormModal({ isOpen, onClose, editAsset, categories, onSuccess }) {
@@ -52,14 +79,12 @@ function AssetFormModal({ isOpen, onClose, editAsset, categories, onSuccess }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (!form.name || !form.category_id) {
-      setError('Name and category are required.');
-      return;
-    }
+    if (!form.name.trim()) { setError('Asset name is required.'); return; }
+    if (!form.category_id) { setError('Please select a category.'); return; }
     setSubmitting(true);
     setError('');
     const payload = {
-      name: form.name,
+      name: form.name.trim(),
       category_id: parseInt(form.category_id),
       serial_number: form.serial_number || undefined,
       acquisition_date: form.acquisition_date || undefined,
@@ -83,6 +108,9 @@ function AssetFormModal({ isOpen, onClose, editAsset, categories, onSuccess }) {
       setSubmitting(false);
     }
   }
+
+  // Determine if current status is system-controlled (can't be manually changed)
+  const currentStatusIsLocked = isEdit && ['Allocated', 'Reserved'].includes(editAsset?.status);
 
   return (
     <Modal
@@ -161,18 +189,26 @@ function AssetFormModal({ isOpen, onClose, editAsset, categories, onSuccess }) {
         {isEdit && (
           <div className="af-asset-form__field">
             <label htmlFor="af-status">Status</label>
-            <select id="af-status" value={form.status}
-              onChange={(e) => set('status', e.target.value)}>
-              <option value="">— Keep current —</option>
-              <option value="Available">Available</option>
-              <option value="Under Maintenance">Under Maintenance</option>
-              <option value="Lost">Lost</option>
-              <option value="Retired">Retired</option>
-              <option value="Disposed">Disposed</option>
-            </select>
-            <span className="af-asset-form__hint">
-              Allocated &amp; Reserved status set automatically by allocation/booking flows.
-            </span>
+            {currentStatusIsLocked ? (
+              <div className="af-asset-form__locked-status">
+                <span className="af-asset-form__locked-badge">
+                  🔒 {editAsset.status} — set automatically by allocation/booking system
+                </span>
+              </div>
+            ) : (
+              <>
+                <select id="af-status" value={form.status}
+                  onChange={(e) => set('status', e.target.value)}>
+                  <option value="">— Keep current ({editAsset?.status}) —</option>
+                  {MANUAL_STATUS_OPTIONS.map((o) => (
+                    <option key={o.value} value={o.value}>{o.label}</option>
+                  ))}
+                </select>
+                <span className="af-asset-form__hint">
+                  Allocated & Reserved are set automatically by the allocation/booking flows.
+                </span>
+              </>
+            )}
           </div>
         )}
 
@@ -196,7 +232,10 @@ function AssetDetailModal({ isOpen, onClose, assetId }) {
   useEffect(() => {
     if (isOpen && assetId) {
       setLoading(true);
-      getAsset(assetId).then((r) => { setAsset(r.data); setLoading(false); }).catch(() => setLoading(false));
+      setAsset(null);
+      getAsset(assetId)
+        .then((r) => { setAsset(r.data); setLoading(false); })
+        .catch(() => setLoading(false));
     }
   }, [isOpen, assetId]);
 
@@ -212,7 +251,7 @@ function AssetDetailModal({ isOpen, onClose, assetId }) {
           <div className="af-asset-detail__top">
             <div className="af-asset-detail__info">
               <div className="af-asset-detail__tag">{asset.tag}</div>
-              <Badge status={asset.status}>{asset.status}</Badge>
+              <Badge status={statusVariant(asset.status)}>{asset.status}</Badge>
               {asset.is_bookable && <span className="af-asset-detail__bookable">📅 Bookable</span>}
             </div>
             {asset.qr_code && (
@@ -230,6 +269,7 @@ function AssetDetailModal({ isOpen, onClose, assetId }) {
             <DetailRow label="Location" value={asset.location} />
             <DetailRow label="Acquisition Date" value={asset.acquisition_date} />
             <DetailRow label="Acquisition Cost" value={asset.acquisition_cost ? `₹${Number(asset.acquisition_cost).toLocaleString('en-IN')}` : undefined} />
+            <DetailRow label="Bookable" value={asset.is_bookable ? 'Yes' : 'No'} />
           </div>
 
           {asset.photo_url && (
@@ -259,9 +299,10 @@ export default function AssetsPage() {
 
   const [assets, setAssets] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [departments, setDepartments] = useState([]);
   const [pagination, setPagination] = useState({ total: 0, page: 1, per_page: 20, pages: 0 });
   const [loading, setLoading] = useState(true);
-  const [filters, setFilters] = useState({ q: '', category_id: '', status: '' });
+  const [filters, setFilters] = useState({ q: '', category_id: '', status: '', department_id: '' });
   const searchTimeout = useRef(null);
 
   const [registerOpen, setRegisterOpen] = useState(false);
@@ -279,7 +320,11 @@ export default function AssetsPage() {
   }, [filters]);
 
   useEffect(() => {
-    getCategories().then((r) => setCategories(r.data));
+    // Load categories and departments for dropdowns
+    Promise.all([getCategories(), getDepartments()]).then(([cats, depts]) => {
+      setCategories(cats.data);
+      setDepartments(depts.data);
+    }).catch(() => {});
     load(1);
   }, []); // eslint-disable-line
 
@@ -296,6 +341,14 @@ export default function AssetsPage() {
     load(1, newFilters);
   }
 
+  function clearFilters() {
+    const reset = { q: '', category_id: '', status: '', department_id: '' };
+    setFilters(reset);
+    load(1, reset);
+  }
+
+  const hasActiveFilters = filters.q || filters.category_id || filters.status || filters.department_id;
+
   const columns = [
     {
       key: 'tag', label: 'Tag', sortable: true,
@@ -303,10 +356,13 @@ export default function AssetsPage() {
     },
     { key: 'name', label: 'Asset Name', sortable: true },
     { key: 'category_name', label: 'Category' },
-    { key: 'condition', label: 'Condition', render: (v) => <Badge status={v === 'New' ? 'available' : v === 'Good' ? 'completed' : 'pending'}>{v}</Badge> },
+    {
+      key: 'condition', label: 'Condition',
+      render: (v) => <Badge status={v === 'New' ? 'available' : v === 'Good' ? 'completed' : 'pending'}>{v}</Badge>,
+    },
     {
       key: 'status', label: 'Status',
-      render: (v) => <Badge status={v}>{v}</Badge>,
+      render: (v) => <Badge status={statusVariant(v)}>{v}</Badge>,
     },
     { key: 'location', label: 'Location', render: (v) => v || <span className="af-org__na">—</span> },
     ...(canMutate ? [{
@@ -329,7 +385,7 @@ export default function AssetsPage() {
         <div>
           <h1 className="af-assets-page__title">Asset Directory</h1>
           <p className="af-assets-page__subtitle">
-            {pagination.total} assets total
+            {pagination.total} asset{pagination.total !== 1 ? 's' : ''} total
           </p>
         </div>
         {canMutate && (
@@ -352,21 +408,30 @@ export default function AssetsPage() {
             onChange={(e) => handleSearch(e.target.value)}
           />
         </div>
+
         <select className="af-assets-filters__select"
           value={filters.category_id}
           onChange={(e) => handleFilter('category_id', e.target.value)}>
           <option value="">All Categories</option>
           {categories.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
         </select>
+
         <select className="af-assets-filters__select"
           value={filters.status}
           onChange={(e) => handleFilter('status', e.target.value)}>
           <option value="">All Statuses</option>
-          {STATUS_OPTIONS.map((s) => <option key={s}>{s}</option>)}
+          {ALL_STATUS_OPTIONS.map((s) => <option key={s}>{s}</option>)}
         </select>
-        {(filters.q || filters.category_id || filters.status) && (
-          <button className="af-assets-filters__clear"
-            onClick={() => { setFilters({ q: '', category_id: '', status: '' }); load(1, { q: '', category_id: '', status: '' }); }}>
+
+        <select className="af-assets-filters__select"
+          value={filters.department_id}
+          onChange={(e) => handleFilter('department_id', e.target.value)}>
+          <option value="">All Departments</option>
+          {departments.map((d) => <option key={d.id} value={d.id}>{d.name}</option>)}
+        </select>
+
+        {hasActiveFilters && (
+          <button className="af-assets-filters__clear" onClick={clearFilters}>
             ✕ Clear
           </button>
         )}
@@ -381,7 +446,13 @@ export default function AssetsPage() {
             columns={columns}
             data={assets}
             onRowClick={(row) => setDetailAssetId(row.id)}
-            emptyMessage="No assets found. Adjust filters or register the first asset."
+            emptyMessage={
+              hasActiveFilters
+                ? 'No assets match these filters. Try adjusting or clearing them.'
+                : canMutate
+                  ? 'No assets yet. Click "+ Register Asset" to add your first asset.'
+                  : 'No assets found.'
+            }
           />
           {pagination.pages > 1 && (
             <div className="af-assets-pagination">

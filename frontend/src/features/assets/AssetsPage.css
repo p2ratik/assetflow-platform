@@ -351,3 +351,39 @@
   animation: spin 0.8s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* Locked status (Allocated / Reserved — system controlled) */
+.af-asset-form__locked-status {
+  margin-top: 0.25rem;
+}
+
+.af-asset-form__locked-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 0.5rem 0.85rem;
+  font-style: italic;
+}
+
+/* Fix form row on small screens */
+@media (max-width: 560px) {
+  .af-asset-form__row {
+    grid-template-columns: 1fr;
+  }
+  .af-asset-form__field--grow {
+    grid-column: auto;
+  }
+  .af-assets-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .af-assets-filters__search {
+    max-width: 100%;
+  }
+}
+

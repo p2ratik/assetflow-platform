@@ -140,12 +140,14 @@ def list_assets(
     q: Optional[str] = None,
     category_id: Optional[int] = None,
     status_filter: Optional[str] = None,
-    department_id: Optional[int] = None,  # future: filter by allocation dept
+    department_id: Optional[int] = None,  # filter by allocation dept
     is_bookable: Optional[bool] = None,
     page: int = 1,
     per_page: int = 20,
 ) -> AssetListResponse:
     """Paginated asset list with optional filters."""
+    from app.models.allocation import Allocation, AllocationStatus
+
     query = db.query(Asset)
 
     if q:
@@ -166,6 +168,14 @@ def list_assets(
             raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=f"Invalid status filter: {status_filter}")
     if is_bookable is not None:
         query = query.filter(Asset.is_bookable == is_bookable)
+    if department_id:
+        # Filter assets currently allocated to the given department
+        query = query.join(
+            Allocation,
+            (Allocation.asset_id == Asset.id) &
+            (Allocation.department_id == department_id) &
+            (Allocation.status == AllocationStatus.active),
+        )
 
     total = query.count()
     offset = (page - 1) * per_page
@@ -178,6 +188,7 @@ def list_assets(
         per_page=per_page,
         pages=ceil(total / per_page) if total else 0,
     )
+
 
 
 # ── Single asset ───────────────────────────────────────────────

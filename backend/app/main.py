@@ -13,6 +13,43 @@ from app.modules.dashboard.router import router as dashboard_router
 import app.models  # noqa: F401
 
 
+# ── Default seed data ──────────────────────────────────────────────────────────
+DEFAULT_CATEGORIES = [
+    "Laptop", "Desktop", "Monitor", "Printer", "Projector",
+    "Phone", "Tablet", "Server", "Networking Equipment",
+    "Office Furniture", "Vehicle", "Other",
+]
+
+DEFAULT_DEPARTMENTS = [
+    "Engineering", "Finance", "HR", "Marketing", "Operations", "IT",
+]
+
+
+def _seed_defaults(conn):
+    """Seed default categories and departments only if the tables are empty."""
+    from sqlalchemy import text
+
+    # Seed categories
+    cat_count = conn.execute(text("SELECT COUNT(*) FROM categories")).scalar()
+    if cat_count == 0:
+        for name in DEFAULT_CATEGORIES:
+            conn.execute(text(
+                "INSERT INTO categories (name, custom_fields, status) "
+                "VALUES (:name, '{}', 'active') ON CONFLICT (name) DO NOTHING"
+            ), {"name": name})
+
+    # Seed departments
+    dept_count = conn.execute(text("SELECT COUNT(*) FROM departments")).scalar()
+    if dept_count == 0:
+        for name in DEFAULT_DEPARTMENTS:
+            conn.execute(text(
+                "INSERT INTO departments (name, status) "
+                "VALUES (:name, 'active') ON CONFLICT (name) DO NOTHING"
+            ), {"name": name})
+
+    conn.commit()
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """
@@ -20,6 +57,7 @@ async def lifespan(app: FastAPI):
       1. CREATE all tables (idempotent — skips existing tables)
       2. CREATE SEQUENCE asset_tag_seq (idempotent — IF NOT EXISTS)
       3. ADD COLUMN categories.status (idempotent — checks information_schema first)
+      4. Seed default categories + departments if empty
     This means the app works on a fresh DB with zero manual migration steps.
     """
     from sqlalchemy import text
@@ -44,6 +82,9 @@ async def lifespan(app: FastAPI):
             END$$;
         """))
         conn.commit()
+
+        # Auto-seed defaults so a fresh install has working dropdowns
+        _seed_defaults(conn)
 
     yield
 
@@ -82,6 +123,13 @@ def create_app() -> FastAPI:
     @app.get("/api/health")
     def health():
         return {"status": "ok", "service": "AssetFlow"}
+
+    @app.post("/api/admin/seed-defaults", tags=["admin"])
+    def seed_defaults_endpoint():
+        """Dev-only: re-seed default categories and departments if tables are empty."""
+        with engine.connect() as conn:
+            _seed_defaults(conn)
+        return {"detail": "Seed complete"}
 
     return app
 
