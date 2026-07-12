@@ -30,7 +30,7 @@ def list_assets(
     department_id: Optional[int] = Query(None, description="Filter by holding department"),
     is_bookable: Optional[bool] = Query(None),
     page: int = Query(1, ge=1),
-    per_page: int = Query(20, ge=1, le=100),
+    per_page: int = Query(20, ge=1, le=500),
     db: Session = Depends(get_db),
     _: User = Depends(get_current_user),
 ):
