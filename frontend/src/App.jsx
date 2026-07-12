@@ -6,6 +6,7 @@ import AppLayout from './components/layout/AppLayout';
 // Real feature pages
 import LoginPage from './features/auth/LoginPage';
 import SignupPage from './features/auth/SignupPage';
+import SetupPage from './features/auth/SetupPage';
 import DashboardPage from './features/dashboard/DashboardPage';
 import OrganizationPage from './features/organization/OrganizationPage';
 import AssetsPage from './features/assets/AssetsPage';
@@ -32,6 +33,7 @@ export default function App() {
           {/* Public routes */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route path="/setup" element={<SetupPage />} />
 
           {/* Protected routes — all wrapped in AppLayout */}
           <Route

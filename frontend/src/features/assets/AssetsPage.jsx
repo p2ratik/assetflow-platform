@@ -160,15 +160,18 @@ function AssetFormModal({ isOpen, onClose, editAsset, categories, onSuccess }) {
 
         {isEdit && (
           <div className="af-asset-form__field">
-            <label htmlFor="af-status">Status (Retired / Disposed only)</label>
+            <label htmlFor="af-status">Status</label>
             <select id="af-status" value={form.status}
               onChange={(e) => set('status', e.target.value)}>
               <option value="">— Keep current —</option>
+              <option value="Available">Available</option>
+              <option value="Under Maintenance">Under Maintenance</option>
+              <option value="Lost">Lost</option>
               <option value="Retired">Retired</option>
               <option value="Disposed">Disposed</option>
             </select>
             <span className="af-asset-form__hint">
-              Other status transitions happen via allocation/booking/maintenance flows.
+              Allocated &amp; Reserved status set automatically by allocation/booking flows.
             </span>
           </div>
         )}

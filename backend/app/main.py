@@ -15,8 +15,36 @@ import app.models  # noqa: F401
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Create all DB tables on startup (idempotent — skips existing tables)."""
+    """
+    On startup:
+      1. CREATE all tables (idempotent — skips existing tables)
+      2. CREATE SEQUENCE asset_tag_seq (idempotent — IF NOT EXISTS)
+      3. ADD COLUMN categories.status (idempotent — checks information_schema first)
+    This means the app works on a fresh DB with zero manual migration steps.
+    """
+    from sqlalchemy import text
     Base.metadata.create_all(bind=engine)
+
+    with engine.connect() as conn:
+        # Atomic tag generation sequence
+        conn.execute(text(
+            "CREATE SEQUENCE IF NOT EXISTS asset_tag_seq START 1 INCREMENT 1 NO CYCLE"
+        ))
+        # Soft-delete column for categories
+        conn.execute(text("""
+            DO $$
+            BEGIN
+                IF NOT EXISTS (
+                    SELECT 1 FROM information_schema.columns
+                    WHERE table_name='categories' AND column_name='status'
+                ) THEN
+                    ALTER TABLE categories
+                    ADD COLUMN status VARCHAR(20) NOT NULL DEFAULT 'active';
+                END IF;
+            END$$;
+        """))
+        conn.commit()
+
     yield
 
 

@@ -28,8 +28,16 @@ from app.utils.tag_generator import generate_tag
 from app.utils.activity_logger import log_action
 
 
-# ── Status transitions allowed via direct update ───────────────
-MANUALLY_SETTABLE_STATUSES = {AssetStatus.retired, AssetStatus.disposed}
+# Status transitions allowed via direct PUT /assets/{id}
+# Allocated and Reserved are exclusively set by the allocation/booking modules
+# (they must create allocation records — direct status writes would bypass audit trails).
+MANUALLY_SETTABLE_STATUSES = {
+    AssetStatus.available,
+    AssetStatus.under_maintenance,
+    AssetStatus.lost,
+    AssetStatus.retired,
+    AssetStatus.disposed,
+}
 
 
 def _make_qr_data_uri(tag: str, asset_id: int) -> str:

@@ -145,3 +145,38 @@
 .af-auth-card__footer-text a:hover {
   text-decoration: underline;
 }
+
+/* ── First-run setup banner ───────────────────────────────────── */
+.af-auth-card__setup-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: rgba(0, 229, 200, 0.08);
+  border: 1px solid rgba(0, 229, 200, 0.25);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-4);
+  font-size: var(--text-sm);
+}
+
+.af-auth-card__setup-banner > span:first-child {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.af-auth-card__setup-banner div {
+  flex: 1;
+}
+
+.af-auth-card__setup-banner strong {
+  display: block;
+  color: var(--accent-primary);
+  font-weight: var(--weight-semibold);
+  margin-bottom: 0.15rem;
+}
+
+.af-auth-card__setup-banner p {
+  color: var(--text-secondary);
+  font-size: var(--text-xs);
+  margin: 0;
+}

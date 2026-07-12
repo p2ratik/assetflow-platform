@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import Button from '../../components/ui/Button';
+import client from '../../api/client';
 import './AuthPages.css';
 
 export default function LoginPage() {
@@ -9,8 +10,15 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [needsSetup, setNeedsSetup] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    client.get('/auth/setup/status')
+      .then(res => setNeedsSetup(res.data.needs_setup))
+      .catch(() => {}); // silently ignore if API unreachable
+  }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -39,6 +47,17 @@ export default function LoginPage() {
           <h1 className="af-auth-card__title">Welcome back</h1>
           <p className="af-auth-card__subtitle">Sign in to AssetFlow</p>
         </div>
+
+        {needsSetup && (
+          <div className="af-auth-card__setup-banner">
+            <span>🏗️</span>
+            <div>
+              <strong>First-time setup required</strong>
+              <p>No admin account exists yet. Create one to get started.</p>
+            </div>
+            <Link to="/setup" className="af-btn af-btn--primary af-btn--sm">Set up</Link>
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="af-auth-card__form">
           {error && (
